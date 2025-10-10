@@ -32,11 +32,6 @@ export default function Component() {
       setRooms(data)
     } catch (error) {
       console.error("Error fetching rooms:", error)
-      toast({
-        title: "Lỗi",
-        description: "Không thể tải danh sách phòng",
-        variant: "destructive",
-      })
     } finally {
       setLoading(false)
     }

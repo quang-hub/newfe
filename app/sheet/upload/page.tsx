@@ -48,11 +48,7 @@ export default function SheetUploadPage() {
       setElectricityRecords(electricRecord)
     } catch (error) {
       console.error("Error fetching rooms:", error)
-      toast({
-        title: "Lỗi",
-        description: "Không thể tải danh sách phòng",
-        variant: "destructive",
-      })
+  
     }
   }
 
@@ -75,11 +71,7 @@ export default function SheetUploadPage() {
 
   const handleConfirmImage = () => {
     if (imageFiles.length === 0) {
-      toast({
-        title: "Lỗi",
-        description: "Vui lòng chọn ít nhất 1 ảnh",
-        variant: "destructive",
-      })
+
       return
     }
     setStep("form")
@@ -122,10 +114,7 @@ export default function SheetUploadPage() {
       console.log(response)
 
       if (response.ok) {
-        toast({
-          title: "Thành công",
-          description: "Đã lưu dữ liệu lên Google Sheet thành công!",
-        })
+      
         const link = await response.text();
         Notification(
           <>
@@ -147,11 +136,7 @@ export default function SheetUploadPage() {
       }
     } catch (error) {
       console.error("Error saving data:", error)
-      toast({
-        title: "Lỗi",
-        description: "Có lỗi xảy ra khi lưu dữ liệu",
-        variant: "destructive",
-      })
+
     } finally {
       setLoading(false)
     }
