@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Upload, Save, ImageIcon, Check, ArrowLeft } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
-import { roomApi } from "@/lib/api"
+import { ElectricityRecord, roomApi } from "@/lib/api"
 import { electricApi } from "@/lib/api"
 import { Notification } from "@/lib/notification"
 import { useRouter } from "next/navigation"
@@ -17,11 +16,6 @@ interface Room {
   roomName: string
 }
 
-interface ElectricityRecord {
-  roomId: number
-  startElectric: number
-  endElectric: number
-}
 
 export default function SheetUploadPage() {
   const [rooms, setRooms] = useState<Room[]>([])
@@ -32,7 +26,6 @@ export default function SheetUploadPage() {
   const [totalElectricity, setTotalElectricity] = useState<string>("")
   const [electricityRecords, setElectricityRecords] = useState<ElectricityRecord[]>([])
   const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
   const router = useRouter()
 
   useEffect(() => {
@@ -111,8 +104,6 @@ export default function SheetUploadPage() {
         credentials: "include"
       })
 
-      console.log(response)
-
       if (response.ok) {
       
         const link = await response.text();
@@ -150,7 +141,7 @@ export default function SheetUploadPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <Button variant="outline" onClick={() => router.push("/")} className="mb-4">
+          <Button variant="outline" onClick={() => router.push("/admin")} className="mb-4">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Quay lại
           </Button>

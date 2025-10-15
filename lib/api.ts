@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"
 
 export class ApiError extends Error {
   constructor(
@@ -87,6 +87,13 @@ export const laundryApi = {
     >(`/api/laundry/stats?month=${month}`),
 
   save: (roomId: number) => apiRequest<string>(`/api/laundry/save?roomId=${roomId}`),
+  
+  list: (month: string) => apiRequest<LaundryRecordItem[]>(`/api/laundry/list?month=${month}`),
+  
+  delete: (ids: number[]) => apiRequest<string>(`/api/laundry/delete`, {
+    method: "POST",
+    body: JSON.stringify(ids)
+  }),
 
   upload: () =>
     apiRequest<string>("/api/laundry/upload", {
@@ -124,7 +131,13 @@ export const googleSheetApi = {
   getAuthUrl: () => `${API_BASE_URL}/auth/sheet`,
 }
 
-interface ElectricityRecord {
+export interface LaundryRecordItem { 
+  id: number
+  roomName: string
+  createdAt: string 
+}
+
+export interface ElectricityRecord {
   roomId: number
   startElectric: number
   endElectric: number

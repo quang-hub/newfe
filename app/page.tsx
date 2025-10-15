@@ -51,24 +51,23 @@ export default function Component() {
       console.error("Error fetching rooms:", error);
     }
   };
-  
-  const handleUploadToGoogleSheet = async () => {
-    console.log(">>> handleUploadToGoogleSheet called")
+
+  const handleOtherFunction = async () => {
     try {
       const isAuthenticated = await googleSheetApi.checkAuth()
       if (isAuthenticated) {
         // Đã xác thực → đi thẳng tới trang upload
-        window.location.href = "/sheet/upload"
+        window.location.href = "/admin"
       } else {
         // Chưa xác thực → mở tab OAuth
-        window.open(googleSheetApi.getAuthUrl(), "_blank")
+        window.open(await googleSheetApi.getAuthUrl(), "oauth","width=520,height=720")
         // window.location.href = "/sheet/upload"
       }
     } catch (err) {
       console.error(err)
       // fallback mở OAuth nếu check lỗi
-      window.open(googleSheetApi.getAuthUrl(), "_blank")
-      window.location.href = "/sheet/upload"
+      window.open(await googleSheetApi.getAuthUrl(), "oauth","width=520,height=720")
+      window.location.href = "/admin"
     }
   }
 
@@ -102,9 +101,8 @@ export default function Component() {
               </div>
             </div>
 
-            <Button onClick={handleUploadToGoogleSheet} className="bg-green-600 hover:bg-green-700 w-full sm:w-auto">
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Google Sheet
+            <Button onClick={handleOtherFunction} className="bg-green-600 hover:bg-green-700 w-full sm:w-auto">
+              Quản lý
             </Button>
 
             <SheetHistoryList />
