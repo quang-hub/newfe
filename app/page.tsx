@@ -60,13 +60,13 @@ export default function Component() {
         window.location.href = "/admin"
       } else {
         // Chưa xác thực → mở tab OAuth
-        window.open(await googleSheetApi.getAuthUrl(), "oauth","width=520,height=720")
+        window.open(await googleSheetApi.getAuthUrl(), "_blank")
         // window.location.href = "/sheet/upload"
       }
     } catch (err) {
       console.error(err)
       // fallback mở OAuth nếu check lỗi
-      window.open(await googleSheetApi.getAuthUrl(), "oauth","width=520,height=720")
+      window.open(await googleSheetApi.getAuthUrl(), "_blank")
       window.location.href = "/admin"
     }
   }
