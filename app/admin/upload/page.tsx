@@ -23,6 +23,7 @@ export default function SheetUploadPage() {
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [totalMoney, setTotalMoney] = useState<string>("")
+  const [formattedMoney, setFormattedMoney] = useState("");
   const [totalElectricity, setTotalElectricity] = useState<string>("")
   const [electricityRecords, setElectricityRecords] = useState<ElectricityRecord[]>([])
   const [loading, setLoading] = useState(false)
@@ -45,30 +46,40 @@ export default function SheetUploadPage() {
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files ? Array.from(e.target.files) : []
-    if (files.length > 0) {
-      const newFiles = [...imageFiles, ...files]
-      setImageFiles(newFiles)
-      const newPreviews = files.map((file) => URL.createObjectURL(file))
-      setImagePreviews((prev) => [...prev, ...newPreviews])
-    }
-  }
+  const handleMoneyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // loại bỏ tất cả ký tự không phải số
+    const raw = e.target.value.replace(/\D/g, "");
 
-  const removeImage = (index: number) => {
-    const newFiles = imageFiles.filter((_, i) => i !== index)
-    const newPreviews = imagePreviews.filter((_, i) => i !== index)
-    setImageFiles(newFiles)
-    setImagePreviews(newPreviews)
-  }
+    // format lại theo chuẩn Việt Nam: dấu . mỗi 3 số
+    const formatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-  const handleConfirmImage = () => {
-    if (imageFiles.length === 0) {
+    setTotalMoney(raw); 
+    setFormattedMoney(formatted);
+  };
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files ? Array.from(e.target.files) : []
+  //   if (files.length > 0) {
+  //     const newFiles = [...imageFiles, ...files]
+  //     setImageFiles(newFiles)
+  //     const newPreviews = files.map((file) => URL.createObjectURL(file))
+  //     setImagePreviews((prev) => [...prev, ...newPreviews])
+  //   }
+  // }
 
-      return
-    }
-    setStep("form")
-  }
+  // const removeImage = (index: number) => {
+  //   const newFiles = imageFiles.filter((_, i) => i !== index)
+  //   const newPreviews = imagePreviews.filter((_, i) => i !== index)
+  //   setImageFiles(newFiles)
+  //   setImagePreviews(newPreviews)
+  // }
+
+  // const handleConfirmImage = () => {
+  //   if (imageFiles.length === 0) {
+
+  //     return
+  //   }
+  //   setStep("form")
+  // }
 
   const updateElectricityRecord = (roomId: number, field: "startElectric" | "endElectric", value: number) => {
     setElectricityRecords((prev) =>
@@ -223,9 +234,10 @@ export default function SheetUploadPage() {
                   <Label htmlFor="totalMoney">Tổng tiền điện (VNĐ)</Label>
                   <Input
                     id="totalMoney"
-                    type="number"
-                    value={totalMoney}
-                    onChange={(e) => setTotalMoney(e.target.value)}
+                    type="text"
+                    inputMode="numeric"
+                    value={formattedMoney}
+                    onChange={handleMoneyChange}
                     placeholder="2230080"
                     className="mt-1"
                   />
