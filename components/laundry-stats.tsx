@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Shirt, Plus, Calendar, TrendingUp } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
 import { laundryApi } from "@/lib/api"
 import { Notification } from "@/lib/notification"
 
@@ -37,7 +36,6 @@ export function LaundryStats({ rooms }: LaundryStatsProps) {
   const [selectedMonth, setSelectedMonth] = useState<string>("")
   const [stats, setStats] = useState<LaundryStats[]>([])
   const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
 
   useEffect(() => {
     const today = new Date()
